@@ -87,6 +87,7 @@ class _VerificationViewState extends State<VerificationView> {
                     ),
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                  spickit,
                   Center(
                     child: Container(
                       width: screenwidth / 1.5,
