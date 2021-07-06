@@ -51,16 +51,17 @@ class RecivePayViewModel extends BaseViewModel {
       weight = "smail";
     }
     notifyListeners();
+
     OrderEntity datas = OrderEntity(
       areaId: areaId == "" ? "not" : areaId,
-      contentValue: contentValue,
+      contentValue: contentValue == null ? "" : contentValue,
       deleveryContact: deleveryContact == null ? "not" : deleveryContact,
-      desc: desc,
-      deliveryTime: deliveryTime,
-      fullDesc: fullDesc,
-      pickupDayId: pickupDayId,
-      pickupContact: pickupContact,
-      weight: weight,
+      desc: desc == null ? "" : desc,
+      deliveryTime: deliveryTime == null ? "" : deliveryTime,
+      fullDesc: fullDesc == null ? "" : fullDesc,
+      pickupDayId: pickupDayId == null ? "" : pickupDayId,
+      pickupContact: pickupContact == null ? "" : pickupContact,
+      weight: weight == null ? "" : weight,
     );
     var res = await serive.sendOrder(datas, "recive_order");
     switch (res) {
@@ -94,7 +95,7 @@ class RecivePayViewModel extends BaseViewModel {
   }
 
   _navigator(context, String code) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => ReciveDone(code: code)),
     );

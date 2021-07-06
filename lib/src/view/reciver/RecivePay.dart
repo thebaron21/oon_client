@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oon_client/src/services/recive_service.dart';
 import 'package:oon_client/src/view/remove/page_logo.dart';
@@ -19,6 +20,7 @@ class RecivePay extends StatefulWidget {
 class _RecivePayState extends State<RecivePay> {
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
     return ViewModelBuilder.reactive(
       builder: (BuildContext context, RecivePayViewModel model, Widget child) {
         Size size = MediaQuery.of(context).size;
@@ -33,12 +35,12 @@ class _RecivePayState extends State<RecivePay> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: ListView(
             children: [
@@ -73,65 +75,128 @@ class _RecivePayState extends State<RecivePay> {
               ),
               Padding(padding: EdgeInsets.all(10)),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 170,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Color(0xFFF1F2F2),
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      child: GestureDetector(
-                        onTap: () {
-                          // model.orderStatus = OrderStatus2.Completed;
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          color: model.orderStatus == OrderStatus2.Completed
-                              ? Color(0xFFD0DD28)
-                              : Colors.white,
-                          child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: screenwidth / 2,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFF1F2F2),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        child: GestureDetector(
+                          onTap: () {
+                            model.orderStatus = OrderStatus2.Completed;
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            color: model.orderStatus == OrderStatus2.Completed
+                                ? Color(0xFFD0DD28)
+                                : Colors.white,
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text('بطاقة الإئتمان أو الخصم'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFFF1F2F2),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        width: screenwidth / 2,
+                        height: 40,
+                        child: GestureDetector(
+                          onTap: () {
+                            model.orderStatus = OrderStatus2.Inprogress;
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            color: model.orderStatus == OrderStatus2.Inprogress
+                                ? Color(0xFFD0DD28)
+                                : Colors.white,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text('بطاقة الإئتمان أو الخصم'),
+                                Text('الدفع عند الإستلام'),
                               ],
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xFFF1F2F2),
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      width: 170,
-                      height: 40,
-                      child: GestureDetector(
-                        onTap: () {
-                          // model.orderStatus = OrderStatus2.Inprogress;
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          color: model.orderStatus == OrderStatus2.Inprogress
-                              ? Color(0xFFD0DD28)
-                              : Colors.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text('الدفع عند الإستلام'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              // Container(
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         width: 170,
+              //         height: 40,
+              //         decoration: BoxDecoration(
+              //             color: Color(0xFFF1F2F2),
+              //             borderRadius: BorderRadius.all(Radius.circular(50))),
+              //         child: GestureDetector(
+              //           onTap: () {
+              //             // model.orderStatus = OrderStatus2.Completed;
+              //           },
+              //           child: Container(
+              //             padding: EdgeInsets.all(8),
+              //             color: model.orderStatus == OrderStatus2.Completed
+              //                 ? Color(0xFFD0DD28)
+              //                 : Colors.white,
+              //             child: Center(
+              //               child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //                 children: [
+              //                   Text('بطاقة الإئتمان أو الخصم'),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       Padding(
+              //         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              //       ),
+              //       Container(
+              //         decoration: BoxDecoration(
+              //             color: Color(0xFFF1F2F2),
+              //             borderRadius: BorderRadius.all(Radius.circular(50))),
+              //         width: 170,
+              //         height: 40,
+              //         child: GestureDetector(
+              //           onTap: () {
+              //             // model.orderStatus = OrderStatus2.Inprogress;
+              //           },
+              //           child: Container(
+              //             padding: EdgeInsets.all(8),
+              //             color: model.orderStatus == OrderStatus2.Inprogress
+              //                 ? Color(0xFFD0DD28)
+              //                 : Colors.white,
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //               children: [
+              //                 Text('الدفع عند الإستلام'),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(padding: EdgeInsets.all(10)),
               Container(
                 alignment: Alignment.bottomRight,
@@ -145,7 +210,7 @@ class _RecivePayState extends State<RecivePay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -171,7 +236,7 @@ class _RecivePayState extends State<RecivePay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -197,7 +262,7 @@ class _RecivePayState extends State<RecivePay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -230,7 +295,7 @@ class _RecivePayState extends State<RecivePay> {
                 model.goToDone(context);
               },
               child: model.isLoading == true
-                  ? CircularProgressIndicator()
+                  ? spickit
                   : Text('تنفيذ الطلب', style: TextStyle(fontSize: 20)),
               color: Color(0xFFD0DD28),
               textColor: Colors.white,
@@ -242,4 +307,9 @@ class _RecivePayState extends State<RecivePay> {
       viewModelBuilder: () => RecivePayViewModel(),
     );
   }
+
+  var spickit = SpinKitWave(
+    size: 35,
+    color: Colors.white,
+  );
 }

@@ -25,12 +25,12 @@ class SelectLocation extends StatelessWidget {
                 ),
               ),
               leadingWidth: 48,
-              leading: Container(
-                padding: EdgeInsets.all(8),
-                child: SvgPicture.asset(
-                  'assets/images/svg/ic_menu.svg',
-                ),
-              ),
+              // leading: Container(
+              //   padding: EdgeInsets.all(8),
+              //   child: SvgPicture.asset(
+              //     'assets/images/svg/ic_menu.svg',
+              //   ),
+              // ),
             ),
             body: SafeArea(
               child: Container(
@@ -59,7 +59,7 @@ class SelectLocation extends StatelessWidget {
                             fontSize: 24),
                       ),
                     ),
-                    Expanded(
+                    Expanded( 
                         child: Container(
                       child: Stack(
                         alignment: Alignment.center,
@@ -78,18 +78,18 @@ class SelectLocation extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 180,
-                            child: Container(
-                              child: Center(
-                                child: PageLogo(
-                                  imagePath:
-                                      'assets/images/svg/ic_location.svg',
-                                  height: 60,
-                                ),
-                              ),
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: 180,
+                          //   child: Container(
+                          //     child: Center(
+                          //       child: PageLogo(
+                          //         imagePath:
+                          //             'assets/images/svg/ic_location.svg',
+                          //         height: 60,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ))

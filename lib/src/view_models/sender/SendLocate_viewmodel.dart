@@ -125,4 +125,9 @@ class SendLocateViewModel extends BaseViewModel {
     ];
     notifyListeners();
   }
+
+  dispose() async {
+    var i = await completer.future;
+    i.dispose();
+  }
 }

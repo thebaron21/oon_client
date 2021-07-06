@@ -66,12 +66,6 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
           ),
           body: ListView(
             children: [
@@ -97,34 +91,34 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
                   ),
                 ),
               ),
-              Container(
-                color: Color(0xFFF1F2F2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(widget.address //'الرياض,العليا,حديقةالعليا',
-                            ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                            maxRadius: 10,
-                            child: Image.asset(
-                              'assets/images/png/g.png',
-                              width: 30,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   color: Color(0xFFF1F2F2),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Column(
+              //         children: [
+              //           Text(widget.address //'الرياض,العليا,حديقةالعليا',
+              //               ),
+              //         ],
+              //       ),
+              //       Column(
+              //         children: [
+              //           Container(
+              //             alignment: Alignment.center,
+              //             child: CircleAvatar(
+              //               maxRadius: 10,
+              //               child: Image.asset(
+              //                 'assets/images/png/g.png',
+              //                 width: 30,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Image.asset(
                 'assets/images/png/gg.png',
               ),
@@ -220,7 +214,6 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
                   SizedBox(height: 100),
                 ],
               ),
-
             ],
           ),
           bottomSheet: Container(
@@ -228,7 +221,6 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Container(
                   width: screenwidth / 3,
                   height: E,
@@ -247,11 +239,16 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
                   height: E,
                   child: RaisedButton(
                     onPressed: () {
-                      model.goToTimeAndDate(context,
-                          details: _details.text,
-                          isBig: isBig,
-                          price: _price.text,
-                          address: widget.address);
+                      if (_details.text == "" || _price.text == "") {
+                        showMessage(context,
+                            title: "تنبيه", content: "أكمل البيانات");
+                      } else {
+                        model.goToTimeAndDate(context,
+                            details: _details.text,
+                            isBig: isBig,
+                            price: _price.text,
+                            address: widget.address);
+                      }
                     },
                     child: const Text('مواعيد إرسال الشحنة',
                         style: TextStyle(fontSize: 20)),
@@ -353,6 +350,34 @@ class _RecivePackDetailsState extends State<RecivePackDetails> {
           )
         ],
       ),
+    );
+  }
+
+  showMessage(context, {String title, String content}) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.right,
+          ),
+          content: Text(
+            content,
+            textAlign: TextAlign.right,
+          ),
+          actions: [
+            FlatButton(
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("موفق"),
+            )
+          ],
+        );
+      },
     );
   }
 }

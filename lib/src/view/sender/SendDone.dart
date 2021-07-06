@@ -40,12 +40,6 @@ class _SendDoneState extends State<SendDone> {
                 ),
               ),
               leadingWidth: 48,
-              leading: Container(
-                padding: EdgeInsets.all(8),
-                child: SvgPicture.asset(
-                  'assets/images/svg/ic_menu.svg',
-                ),
-              ),
             ),
             body: ListView(
               children: [
@@ -53,14 +47,26 @@ class _SendDoneState extends State<SendDone> {
                   title: 'إرسال',
                   colorPattern: model.colorPattern,
                   back: () {
-                    Navigator.push(context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Home()));
                   },
                   help: () {},
                 ),
-                PageLogo(
-                  imagePath: 'assets/images/svg/ic_step2.svg',
-                  height: 60,
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    PageLogo(
+                      imagePath: 'assets/images/svg/ic_circle.svg',
+                      height: 60,
+                    ),
+                    Text(
+                      "8",
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: model.colorPattern.primaryColor,
+                      ),
+                    )
+                  ],
                 ),
                 Center(
                   child: Text(
@@ -94,8 +100,11 @@ class _SendDoneState extends State<SendDone> {
                     height: 280,
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     decoration: BoxDecoration(
-                        color: Color(0xFFF1F2F2),
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                      color: Color(0xFFF1F2F2),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                    ),
                     child: Column(
                       children: [
                         Padding(
@@ -119,20 +128,16 @@ class _SendDoneState extends State<SendDone> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) => BuyPage()),
-                                        // );
+                                        model.goToTrack(context);
                                       },
                                       child: Container(
                                           width: 80,
                                           height: 80,
                                           child: CircleAvatar(
                                             backgroundColor: Color(0XFFD0DD28),
-                                            child: PageLogo(
-                                              imagePath:
-                                                  'assets/images/svg/ic_send.svg',
+                                            child: Image.asset(
+                                              'assets/images/png/track.png',
+                                              height: 40,
                                             ),
                                           )),
                                     ),
@@ -143,11 +148,12 @@ class _SendDoneState extends State<SendDone> {
                                 Row(
                                   children: [
                                     Text(
-                                      'إرسال',
+                                      'تتبع',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: Colors.black45),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Colors.black45,
+                                      ),
                                     )
                                   ],
                                 )
@@ -160,23 +166,21 @@ class _SendDoneState extends State<SendDone> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    OrderStepTwoOne()));
+                                        model.goToBuy(context);
                                       },
                                       child: Container(
-                                          width: 80,
-                                          height: 80,
-                                          child: CircleAvatar(
-                                              backgroundColor:
-                                                  Color(0XFFD0DD28),
-                                              child: Container(
-                                                height: 40,
-                                                child: Image.asset(
-                                                    'assets/images/png/sale.png'),
-                                              ))),
+                                        width: 80,
+                                        height: 80,
+                                        child: CircleAvatar(
+                                          backgroundColor: Color(0XFFD0DD28),
+                                          child: Container(
+                                            height: 40,
+                                            child: Image.asset(
+                                              'assets/images/png/sale.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -202,22 +206,21 @@ class _SendDoneState extends State<SendDone> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) => BuyPage()),
-                                        // );
+                                        model.goToRecive(context);
                                       },
                                       child: Container(
-                                          width: 80,
-                                          height: 80,
-                                          child: CircleAvatar(
-                                            backgroundColor: Color(0XFFD0DD28),
+                                        width: 80,
+                                        height: 80,
+                                        child: CircleAvatar(
+                                          backgroundColor: Color(0XFFD0DD28),
+                                          child: Container(
+                                            height: 40,
                                             child: Image.asset(
-                                              'assets/images/png/track.png',
-                                              height: 40,
+                                              'assets/images/png/rec.png',
                                             ),
-                                          )),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -226,11 +229,12 @@ class _SendDoneState extends State<SendDone> {
                                 Row(
                                   children: [
                                     Text(
-                                      'تتبع',
+                                      'إستلام',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: Colors.black45),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Colors.black45,
+                                      ),
                                     )
                                   ],
                                 )

@@ -51,14 +51,14 @@ class SendPayViewModel extends BaseViewModel {
     notifyListeners();
     OrderEntity datas = OrderEntity(
       areaId: areaId == "" ? "not" : areaId,
-      contentValue: contentValue,
+      contentValue: contentValue == null ? "" : contentValue,
       deleveryContact: deleveryContact == null ? "not" : deleveryContact,
-      desc: desc,
-      deliveryTime: deliveryTime,
-      fullDesc: fullDesc,
-      pickupDayId: pickupDayId,
-      pickupContact: pickupContact,
-      weight: weight,
+      desc: desc == "" ? "" : desc,
+      deliveryTime: deliveryTime == "" ? "" : deliveryTime,
+      fullDesc: fullDesc == "" ? "" : fullDesc,
+      pickupDayId: pickupDayId == null ? "" : pickupDayId,
+      pickupContact: pickupContact == null ? "" : pickupContact,
+      weight: weight == null ? "" : weight,
     );
 
     var res = await service.sendOrder(datas, "send_order");

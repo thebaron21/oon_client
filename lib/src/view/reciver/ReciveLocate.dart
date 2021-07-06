@@ -29,12 +29,12 @@ class _ReciveLocateState extends State<ReciveLocate> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: SafeArea(
             child: Column(
@@ -85,14 +85,7 @@ class _ReciveLocateState extends State<ReciveLocate> {
               elevation: 5,
             ),
           ),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.miniStartFloat,
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: model.colorPattern.primaryColor,
-          //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          //   child: Icon(Icons.arrow_forward_ios),
-          //   onPressed: () =>
-          // ),
+
         );
       },
       viewModelBuilder: () => ReciveLocateViewModel(),

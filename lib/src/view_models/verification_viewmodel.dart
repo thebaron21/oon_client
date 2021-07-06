@@ -38,6 +38,9 @@ class VerificationViewModel extends BaseViewModel {
       case StateService.ErrorServer:
         _showMessage(context: context, message: "خطأ في السيرفر");
         break;
+      case StateService.FullData:
+        _showMessage(context: context, message: "تأكد من إكمال البيانات");
+        break;
     }
     _isLoading = false;
     notifyListeners();

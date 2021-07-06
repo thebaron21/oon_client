@@ -11,24 +11,31 @@ class HomeViewModel extends BaseViewModel {
   Config config = Config();
 
   goToBuy(BuildContext context) {
+    showMessage(context,
+        title: "قريبا", content: "قريبا سوف يتم إضافة هذا القسم");
+  }
+
+  showMessage(context, {String title, String content}) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(
-            "قريبا",
-            textAlign: TextAlign.end,
+            title,
+            textAlign: TextAlign.right,
           ),
           content: Text(
-            "قريبا سوف يتم إضافة هذا القسم",
-            textAlign: TextAlign.end,
+            content,
+            textAlign: TextAlign.right,
           ),
           actions: [
             FlatButton(
-              child: Text("موفق"),
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
+              child: Text("موفق"),
             )
           ],
         );
@@ -49,7 +56,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   _navigator(context, dynamic page) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => page),
     );

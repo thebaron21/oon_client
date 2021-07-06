@@ -6,7 +6,7 @@ import 'package:oon_client/src/services/repositories/order_repository.dart';
 import 'package:oon_client/src/view_models/Track/Track_viewmodel.dart';
 import 'package:oon_client/src/view_models/order_history_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 
 import 'TrackInfo.dart';
@@ -75,12 +75,12 @@ class _TrackState extends State<Track> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: FutureBuilder<OrderRepository>(
             future: orderService.fetchOrder(token: token),
@@ -89,16 +89,16 @@ class _TrackState extends State<Track> {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("خطأ غير معروف"),
-                    ));
-                    return Center(child: CircularProgressIndicator());
+                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //   content: Text("خطأ غير معروف"),
+                    // ));
+                    return Center(child: spickit);
                     break;
                   case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: spickit);
                     break;
                   case ConnectionState.active:
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: spickit);
                     break;
                   case ConnectionState.done:
                     return ListView(
@@ -111,7 +111,7 @@ class _TrackState extends State<Track> {
                               tabBar(
                                 screenwidth,
                                 image: 'assets/images/svg/ic_completed.svg',
-                                txt: 'مكتملة',
+                                txt: 'مكتمل',
                                 onTap: () {
                                   model.orderStatus = OrderStatus4.Completed;
                                 },
@@ -149,10 +149,8 @@ class _TrackState extends State<Track> {
                         Container(
                           width: screenwidth,
                           height: screenhigh,
-                          child: _mapList(
-                            snapshot.data.orders,
-                            model.orderStatus4,
-                          ),
+                          child: _mapList(snapshot.data.orders,
+                              model.orderStatus4, screenwidth),
                         ),
                       ],
                     );
@@ -165,7 +163,7 @@ class _TrackState extends State<Track> {
                   height: 500,
                   child: Center(
                     child: snapshot.data.error == null
-                        ? CircularProgressIndicator()
+                        ? spickit
                         : Text("snapshot.data.error"),
                   ),
                 );
@@ -182,7 +180,7 @@ class _TrackState extends State<Track> {
     );
   }
 
-  _buildListTile(OrderFetchModel model) {
+  _buildListTile(OrderFetchModel model, screenwidth) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -195,6 +193,7 @@ class _TrackState extends State<Track> {
         );
       },
       child: Container(
+        width: screenwidth,
         alignment: Alignment.center,
         child: Row(
           children: [
@@ -231,7 +230,7 @@ class _TrackState extends State<Track> {
                           children: [
                             Padding(padding: EdgeInsets.all(5)),
                             Text(
-                              'غير مكتملة',
+                              'غير مكتمل',
                             ),
                           ],
                         )
@@ -308,7 +307,7 @@ class _TrackState extends State<Track> {
     );
   }
 
-  _mapList(List<OrderFetchModel> order, OrderStatus4 state) {
+  _mapList(List<OrderFetchModel> order, OrderStatus4 state, screenwidth) {
     List<OrderFetchModel> orders = [];
     if (state == OrderStatus4.Completed) {
       orders.addAll(order.where((element) => element.orderStatusId == "0"));
@@ -319,12 +318,16 @@ class _TrackState extends State<Track> {
     print("Length 5 : " + orders.length.toString());
     return ListView.builder(
       shrinkWrap: true,
+      physics: ScrollPhysics(),
       itemCount: orders.length,
       itemBuilder: (BuildContext context, int index) {
-        return _buildListTile(
-          orders[index],
-        );
+        return _buildListTile(orders[index], screenwidth);
       },
     );
   }
+
+  var spickit = SpinKitWave(
+    size: 35,
+    color: Color(0xFFD0DD28),
+  );
 }

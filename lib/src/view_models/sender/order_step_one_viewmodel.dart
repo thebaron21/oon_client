@@ -8,7 +8,7 @@ class OrderStepOneViewModel extends BaseViewModel {
   ColorPattern colorPattern = ColorPattern();
 
   location(context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => SendLocate(),

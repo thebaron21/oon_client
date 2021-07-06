@@ -34,12 +34,12 @@ class _HomeState extends State<Home> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: new Theme(
             data: ThemeData(primaryColor: Color(0XFFD0DD28)),
@@ -201,7 +201,7 @@ class _HomeState extends State<Home> {
                             InkWell(
                               onTap: () {
                                 {
-                                   model.goToRecive(context);
+                                  model.goToRecive(context);
                                 }
                               },
                               child: Container(

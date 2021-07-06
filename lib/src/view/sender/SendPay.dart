@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oon_client/src/helpers/color_pattern.dart';
 import 'package:oon_client/src/view/widgets/action_bar.dart';
 import 'package:oon_client/src/view/remove/page_logo.dart';
+import 'package:oon_client/src/view_models/sender/AddSender_viewmodel.dart';
 import 'package:oon_client/src/view_models/sender/SendPay_veiwmodel.dart';
 import 'package:oon_client/src/view_models/order_history_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -25,6 +27,8 @@ class SendPay extends StatefulWidget {
 class _SendPayState extends State<SendPay> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double screenwidth = MediaQuery.of(context).size.width;
     return ViewModelBuilder.reactive(
       builder: (BuildContext context, SendPayViewModel model, Widget child) {
         return Scaffold(
@@ -38,12 +42,12 @@ class _SendPayState extends State<SendPay> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: ListView(
             children: [
@@ -63,7 +67,7 @@ class _SendPayState extends State<SendPay> {
                     height: 60,
                   ),
                   Text(
-                    "6",
+                    "7",
                     style: TextStyle(
                       fontSize: 35,
                       color: model.colorPattern.primaryColor,
@@ -79,24 +83,23 @@ class _SendPayState extends State<SendPay> {
                 margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
                 child: Text('وسيلة الدفع المفضلة'),
               ),
-              Padding(padding: EdgeInsets.all(10)),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 170,
+                      width: screenwidth / 2,
                       height: 40,
                       decoration: BoxDecoration(
                           color: Color(0xFFF1F2F2),
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: GestureDetector(
                         onTap: () {
-                          // model.orderStatus = OrderStatus3.Completed;
+                          // model.orderStatus = OrderStatus2.Completed;
                         },
                         child: Container(
                           padding: EdgeInsets.all(8),
-                          color: model.orderStatus == OrderStatus3.Completed
+                          color: model.orderStatus == OrderStatus2.Completed
                               ? Color(0xFFD0DD28)
                               : Colors.white,
                           child: Center(
@@ -115,12 +118,9 @@ class _SendPayState extends State<SendPay> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFF1F2F2),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50),
-                        ),
-                      ),
-                      width: 170,
+                          color: Color(0xFFF1F2F2),
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                      width: screenwidth / 2,
                       height: 40,
                       child: GestureDetector(
                         onTap: () {
@@ -156,7 +156,7 @@ class _SendPayState extends State<SendPay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -182,7 +182,7 @@ class _SendPayState extends State<SendPay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -208,7 +208,7 @@ class _SendPayState extends State<SendPay> {
                 height: 30,
                 alignment: Alignment.center,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(20)),
                     Column(
@@ -222,7 +222,7 @@ class _SendPayState extends State<SendPay> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(padding: EdgeInsets.fromLTRB(0, 0, 220, 0)),
-                        Text('50 AED')
+                        Text('${widget.price} AED')
                       ],
                     )
                   ],
@@ -231,32 +231,31 @@ class _SendPayState extends State<SendPay> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 250, 0, 0),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: 370,
-                    height: 47,
-                    child: RaisedButton(
-                      onPressed: () async {
-                        model.sendOrder(context);
-                      },
-                      child: model.getIsLoading == true
-                          ? CircularProgressIndicator()
-                          : Text('تنفيذ الطلب', style: TextStyle(fontSize: 20)),
-                      color: Color(0xFFD0DD28),
-                      textColor: Colors.white,
-                      elevation: 5,
-                    ),
-                  ),
-                ),
-              )
             ],
+          ),
+          bottomSheet: Container(
+            width: size.width,
+            height: 47,
+            child: RaisedButton(
+              onPressed: () async {
+                model.sendOrder(context);
+              },
+              child: model.getIsLoading == true
+                  ? spickit
+                  : Text('تنفيذ الطلب', style: TextStyle(fontSize: 20)),
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              elevation: 5,
+            ),
           ),
         );
       },
       viewModelBuilder: () => SendPayViewModel(),
     );
   }
+
+  var spickit = SpinKitWave(
+    size: 35,
+    color: Colors.white,
+  );
 }

@@ -12,6 +12,12 @@ class SendLocate extends StatefulWidget {
 
 class _SendLocateState extends State<SendLocate> {
   @override
+  void dispose() {
+    super.dispose();
+    SendLocateViewModel().dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return ViewModelBuilder.reactive(
@@ -27,12 +33,12 @@ class _SendLocateState extends State<SendLocate> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: SafeArea(
             child: Column(

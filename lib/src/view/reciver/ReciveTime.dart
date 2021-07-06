@@ -1,3 +1,4 @@
+import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,79 +50,50 @@ class _ReciveTimeState extends State<ReciveTime> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
           ),
-          body: ListView(
-            children: [
-              ActionBar(
-                title: 'إرسال',
-                colorPattern: model.colorPattern,
-                back: () {
-                  Navigator.of(context).pop();
-                },
-                help: () {},
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  PageLogo(
-                    imagePath: 'assets/images/svg/ic_circle.svg',
-                    height: 60,
-                  ),
-                  Text(
-                    '3',
-                    style: TextStyle(fontSize: 45, color: Color(0xFFD0DD28)),
-                  )
-                ],
-              ),
-              Center(
-                child: Text(
-                  'مواعيد الإرسال',
-                  style: TextStyle(
-                      color: model.colorPattern.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24),
+          body: SingleChildScrollView(
+            child: ListView(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              children: [
+                ActionBar(
+                  title: 'إرسال',
+                  colorPattern: model.colorPattern,
+                  back: () {
+                    Navigator.of(context).pop();
+                  },
+                  help: () {},
                 ),
-              ),
-              Container(
-                color: Color(0xFFF1F2F2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Column(
-                      children: [
-                        Text(widget.address //'الرياض,العليا,حديقةالعليا',
-                            ),
-                      ],
+                    PageLogo(
+                      imagePath: 'assets/images/svg/ic_circle.svg',
+                      height: 60,
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                            maxRadius: 10,
-                            child: Image.asset(
-                              'assets/images/png/g.png',
-                              width: 30,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    Text(
+                      '3',
+                      style: TextStyle(fontSize: 45, color: Color(0xFFD0DD28)),
+                    )
                   ],
                 ),
-              ),
-              Image.asset(
-                'assets/images/png/Group2.png',
-                height: 200,
-              ),
-              _buildTimeAndDate(context, size),
-            ],
+                Center(
+                  child: Text(
+                    'مواعيد الإرسال',
+                    style: TextStyle(
+                        color: model.colorPattern.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24),
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/png/Group2.png',
+                  height: 200,
+                ),
+                _buildCalender(),
+                SizedBox(height: 150),
+              ],
+            ),
           ),
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -162,16 +134,26 @@ class _ReciveTimeState extends State<ReciveTime> {
     );
   }
 
-  _buildTimeAndDate(BuildContext context, Size size) {
-    return CalendarDatePicker(
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2030),
-      initialCalendarMode: DatePickerMode.year,
-      onDateChanged: (value) {
-        setState(() => _dateSend = "${value.year}/${value.month}/${value.day}");
+  DateTime initData = DateTime(2021, 6, 22);
+  _buildCalender() {
+    return CalendarTimeline(
+      initialDate: initData,
+      firstDate: DateTime(2021, 1, 1),
+      lastDate: DateTime(2050, 1, 1),
+      onDateSelected: (value) {
+        setState(() => initData = value);
+        setState(() =>
+            _dateSend = "${initData.year}/${initData.month}/${initData.day}");
         print(_dateSend);
       },
+      showYears: true,
+      leftMargin: 80,
+      monthColor: Colors.blueGrey,
+      dayColor: Color(0xFF6D6F72),
+      activeBackgroundDayColor: Color(0xFFD0DD28),
+      activeDayColor: Colors.white,
+      dotsColor: Color(0xFFF1F2F2),
+      locale: 'en',
     );
   }
 }

@@ -32,12 +32,12 @@ class _ReciveDoneState extends State<ReciveDone> {
                 ),
               ),
               leadingWidth: 48,
-              leading: Container(
-                padding: EdgeInsets.all(8),
-                child: SvgPicture.asset(
-                  'assets/images/svg/ic_menu.svg',
-                ),
-              ),
+              // leading: Container(
+              //   padding: EdgeInsets.all(8),
+              //   child: SvgPicture.asset(
+              //     'assets/images/svg/ic_menu.svg',
+              //   ),
+              // ),
             ),
             body: ListView(
               children: [
@@ -94,154 +94,146 @@ class _ReciveDoneState extends State<ReciveDone> {
                   padding: EdgeInsets.fromLTRB(0, 225, 0, 0),
                 ),
                 Container(
-                    width: 250,
-                    height: 280,
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    decoration: BoxDecoration(
+                  width: 250,
+                  height: 280,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  decoration: BoxDecoration(
                       color: Color(0xFFF1F2F2),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        ),
-                        Text(
-                          'هل تود تنفيذ طلب أخر؟',
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(100 / 10, 0, 0, 0)),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        model.goToTrack(context);
-                                      },
-                                      child: Container(
-                                          width: 80,
-                                          height: 80,
-                                          child: CircleAvatar(
-                                            backgroundColor: Color(0XFFD0DD28),
-                                            child: Image.asset(
-                                              'assets/images/png/track.png',
-                                              height: 40,
-                                            ),
-                                          )),
+                      Text(
+                        'هل تود تنفيذ طلب أخر؟',
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(100 / 10, 0, 0, 0)),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      model.goToSender(context);
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0XFFD0DD28),
+                                        child: PageLogo(
+                                          imagePath:
+                                              'assets/images/svg/ic_send.svg',
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'تتبع',
-                                      style: TextStyle(
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                              Row(
+                                children: [
+                                  Text(
+                                    'إرسال',
+                                    style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22,
-                                        color: Colors.black45,
+                                        color: Colors.black45),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Padding(padding: EdgeInsets.fromLTRB(28, 0, 0, 0)),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      model.goToBuy(context);
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0XFFD0DD28),
+                                        child: Container(
+                                          height: 40,
+                                          child: Image.asset(
+                                              'assets/images/png/sale.png'),
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.fromLTRB(28, 0, 0, 0)),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        model.goToSender(context);
-                                      },
-                                      child: Container(
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                              Row(
+                                children: [
+                                  Text(
+                                    'بيع',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Colors.black45),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Padding(padding: EdgeInsets.fromLTRB(28, 0, 0, 0)),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      model.goToTrack(context);
+                                    },
+                                    child: Container(
                                         width: 80,
                                         height: 80,
                                         child: CircleAvatar(
                                           backgroundColor: Color(0XFFD0DD28),
-                                          child: Container(
+                                          child: Image.asset(
+                                            'assets/images/png/track.png',
                                             height: 40,
-                                            child: Image.asset(
-                                              'assets/images/png/sale.png',
-                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'بيع',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: Colors.black45),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.fromLTRB(28, 0, 0, 0)),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        model.goToRecive(context);
-                                      },
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        child: CircleAvatar(
-                                          backgroundColor: Color(0XFFD0DD28),
-                                          child: Container(
-                                            height: 40,
-                                            child: Image.asset(
-                                              'assets/images/png/rec.png',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'إستلام',
-                                      style: TextStyle(
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                              Row(
+                                children: [
+                                  Text(
+                                    'تتبع',
+                                    style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22,
-                                        color: Colors.black45,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                                        color: Colors.black45),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );

@@ -3,13 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:oon_client/src/view_models/verification_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class VerificationView extends StatefulWidget {
   final String username;
   final String address;
   final String opt;
 
-  const VerificationView({Key key, @required this.username, this.address, this.opt})
+  const VerificationView(
+      {Key key, @required this.username, this.address, this.opt})
       : super(key: key);
   @override
   _VerificationViewState createState() => _VerificationViewState();
@@ -52,75 +54,112 @@ class _VerificationViewState extends State<VerificationView> {
                       ),
                     ),
                   ),
+                  // Center(
+                  //   child: Container(
+                  //     margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  //     width: screenwidth / 1.5,
+                  //     height: 45,
+                  //     child: TextFormField(
+                  //       cursorColor: Color(0XFFD0DD28),
+                  //       textAlign: TextAlign.center,
+                  //       initialValue: widget.opt,
+                  //       // onSaved: (v) => opt = v,
+                  //       keyboardType: TextInputType.number,
+                  //       decoration: InputDecoration(
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: const BorderRadius.all(
+                  //             const Radius.circular(50.0),
+                  //           ),
+                  //         ),
+                  //         fillColor: Colors.white,
+                  //         filled: true,
+                  //         focusedBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.all(Radius.circular(50)),
+                  //           borderSide: BorderSide(
+                  //             width: 1,
+                  //             color: Color(0XFFD0DD28),
+                  //           ),
+                  //         ),
+                  //         hintText: "رقم التفعيل",
+                  //         hintStyle: TextStyle(
+                  //           color: Color(0XFFD0DD28),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
                   Center(
                     child: Container(
-                      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                       width: screenwidth / 1.5,
-                      height: 45,
-                      child: TextFormField(
-                        cursorColor: Color(0XFFD0DD28),
-                        textAlign: TextAlign.center,
-                        initialValue: widget.opt,
-                        // onSaved: (v) => opt = v,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(50.0),
-                            ),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        //borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(2, 0),
+                            color: Colors.grey,
+                            spreadRadius: 0,
+                            blurRadius: 2,
                           ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0XFFD0DD28),
-                            ),
-                          ),
-                          hintText: "رقم التفعيل",
-                          hintStyle: TextStyle(
-                            color: Color(0XFFD0DD28),
-                          ),
+                        ],
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
                         ),
+                      ),
+                      child: TextFormField(
+                        initialValue: widget.opt,
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "رقم الهاتف",
+                            hintStyle: new TextStyle(
+                              color: Color(0XFFD0DD28),
+                            )),
                       ),
                     ),
                   ),
+
                   Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                  spickit,
+
                   Center(
-                    child: Container(
-                      width: screenwidth / 1.5,
-                      child: ButtonTheme(
-                        height: 40,
-                        buttonColor: Color(0XFF808285),
-                        child: RaisedButton(
-                          onPressed: () async {
-                            SharedPreferences obj =
-                                await SharedPreferences.getInstance();
-                            print(obj.getString("opt"));
-                            modelView.submit(
-                              context,
-                              location: widget.address,
-                              username: widget.username,
-                              opt: obj.getString("opt"),
-                            );
-                          },
-                          child: modelView.isLoading == true
-                              ? CircularProgressIndicator()
-                              : Text(
+                    child: modelView.isLoading == true
+                        ? spickit
+                        : Container(
+                            width: screenwidth / 1.5,
+                            child: ButtonTheme(
+                              height: 40,
+                              buttonColor: Color(0XFF808285),
+                              child: RaisedButton(
+                                onPressed: () async {
+                                  SharedPreferences obj =
+                                      await SharedPreferences.getInstance();
+                                  print(obj.getString("opt"));
+                                  modelView.submit(
+                                    context,
+                                    location: widget.address,
+                                    username: widget.username,
+                                    opt: obj.getString("opt"),
+                                  );
+                                },
+                                child: Text(
                                   'تفعيل',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
                                   ),
                                 ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -131,4 +170,9 @@ class _VerificationViewState extends State<VerificationView> {
       viewModelBuilder: () => VerificationViewModel(),
     );
   }
+
+  var spickit = SpinKitWave(
+    size: 35,
+    color: Colors.white,
+  );
 }

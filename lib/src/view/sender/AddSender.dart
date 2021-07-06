@@ -75,12 +75,6 @@ class _AddSenderState extends State<AddSender> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
           ),
           body: Form(
             key: _keyFrom,
@@ -102,7 +96,7 @@ class _AddSenderState extends State<AddSender> {
                       height: 60,
                     ),
                     Text(
-                      "3",
+                      "4",
                       style: TextStyle(
                         fontSize: 35,
                         color: model.colorPattern.primaryColor,
@@ -167,35 +161,38 @@ class _AddSenderState extends State<AddSender> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          Contact contact = await _contactPicker
-                                              .selectContact();
-                                          setState(() {
-                                            _uae.text = contact.fullName;
-                                            _phone.text =
-                                                contact.phoneNumber.number;
-                                          });
-                                          model.changeInitValue(
-                                            contact.fullName,
-                                            contact.phoneNumber.number,
-                                          );
-                                        },
-                                        child: Image.asset(
+                                  InkWell(
+                                    onTap: () async {
+                                      Contact contact =
+                                          await _contactPicker.selectContact();
+                                      if (contact != null) {
+                                        setState(() {
+                                          _uae.text = contact.fullName;
+                                          _phone.text =
+                                              contact.phoneNumber.number;
+                                        });
+                                        model.changeInitValue(
+                                          contact.fullName,
+                                          contact.phoneNumber.number,
+                                        );
+                                      }
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Image.asset(
                                           'assets/images/png/TF.png',
                                           height: 30,
                                         ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          '+',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      )
-                                    ],
+                                        Center(
+                                          child: Text(
+                                            '+',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   )
                                 ],
                               )
@@ -206,8 +203,12 @@ class _AddSenderState extends State<AddSender> {
                     ),
                   ],
                 ),
-
-                Padding(padding: EdgeInsets.all(5)),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
+                  child: Text('رقم جهة الإتصال'),
+                ),
+                Padding(padding: EdgeInsets.all(10)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -262,11 +263,8 @@ class _AddSenderState extends State<AddSender> {
                                         ),
                                       ),
                                       Center(
-                                        child: Text(
-                                          'UAE',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      )
+                                          child: Icon(Icons.phone,
+                                              color: Colors.white))
                                     ],
                                   )
                                 ],
@@ -278,7 +276,6 @@ class _AddSenderState extends State<AddSender> {
                     ),
                   ],
                 ),
-
                 Padding(padding: EdgeInsets.all(10)),
                 Container(
                   width: 300,
@@ -292,12 +289,12 @@ class _AddSenderState extends State<AddSender> {
             height: 40,
             child: RaisedButton(
               onPressed: () async {
-                final current = _keyFrom.currentState;
-                if (current.validate()) {
-                  current.save();
+                if (_uae.text == "" || _phone.text == "") {
+                  showMessage(context);
+                } else {
                   model.goToAddDetails(
                     context,
-                    address:widget.address,
+                    address: widget.address,
                     uae: _uae.text,
                     myPhone: _phone.text,
                   );
@@ -321,5 +318,34 @@ class _AddSenderState extends State<AddSender> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+ 
+    showMessage(context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "تفاصيل الشحنة",
+            textAlign: TextAlign.right,
+          ),
+          content: Text(
+            "أكمل جميع الحقول",
+            textAlign: TextAlign.right,
+          ),
+          actions: [
+            FlatButton(
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("موفق"),
+            )
+          ],
+        );
+      },
+    );
   }
 }

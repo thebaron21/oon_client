@@ -231,10 +231,11 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Padding(padding: EdgeInsets.all(10)),
               Center(
-                  child: Text(
-                'أو',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              )),
+                child: Text(
+                  'أو',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
               Padding(padding: EdgeInsets.all(10)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -280,50 +281,54 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    InkWell(
-                                        onTap: () {
-                                          print("Click Open Maps");
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => OpenMap(),
+                            InkWell(
+                              onTap: () {
+                                print("Click Open Maps");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OpenMap(),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  
+                                      Row(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                width: 10,
+                                                color: Color(0XFFD0DD28),
+                                                height: 40,
+                                              )
+                                            ],
+                                          ),
+                                          Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                          Image.asset(
+                                            'assets/images/png/TF.png',
+                                            color: Color(0XFF808285),
+                                            height: 40,
+                                            
+                                          ),
+                                          Center(
+                                            child: Icon(
+                                              Icons.location_pin,
+                                              color: Color(0XFFD0DD28),
                                             ),
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  width: 10,
-                                                  color: Color(0XFFD0DD28),
-                                                  height: 40,
-                                                )
-                                              ],
-                                            ),
-                                            Image.asset(
-                                              'assets/images/png/TF.png',
-                                              color: Color(0XFF808285),
-                                              height: 40,
-                                            ),
-                                          ],
-                                        )),
-                                    Center(
-                                        child: Icon(
-                                      Icons.location_pin,
-                                      color: Color(0XFFD0DD28),
-                                    ))
-                                  ],
-                                )
-                              ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -337,25 +342,26 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Container(
                   width: screenwidth / 1.5,
                   child: ButtonTheme(
-                      height: 40,
-                      buttonColor: Color(0XFF808285),
-                      child: RaisedButton(
-                          onPressed: () {
-                            openCodePage(
-                              username: _username.text,
-                              address: widget.location != null
-                                  ? widget.location
-                                  : _address.text,
-                            );
-                          },
-                          child: Text(
-                            'أنشيء حساب',
-                            style: new TextStyle(
-                                fontSize: 18, color: Colors.white),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40),
-                          ))),
+                    height: 40,
+                    buttonColor: Color(0XFF808285),
+                    child: RaisedButton(
+                      onPressed: () {
+                        openCodePage(
+                          username: _username.text,
+                          address: widget.location != null
+                              ? widget.location
+                              : _address.text,
+                        );
+                      },
+                      child: Text(
+                        'أنشيء حساب',
+                        style: new TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(40),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Center(
@@ -388,7 +394,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String opt = obj.getString("opt");
 
     print(opt);
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => VerificationView(
@@ -432,28 +438,21 @@ class _OpenMapState extends State<OpenMap> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Container(
-            width: size.width,
-            height: size.height * 0.8,
-            child: GoogleMap(
-              myLocationEnabled: true,
-              markers: mapsMarker.toSet(),
-              onTap: (value) {
-                selectLocation(value);
-              },
-              mapType: MapType.normal,
-              initialCameraPosition: OpenMap._cameraPosition,
-              onMapCreated: (con) {
-                completer.complete(con);
-              },
-            ),
-          ),
-        ],
+      body: Container(
+        width: size.width,
+        height: size.height,
+        child: GoogleMap(
+          myLocationEnabled: true,
+          markers: mapsMarker.toSet(),
+          onTap: (value) {
+            selectLocation(value);
+          },
+          mapType: MapType.normal,
+          initialCameraPosition: OpenMap._cameraPosition,
+          onMapCreated: (con) {
+            completer.complete(con);
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
       floatingActionButton: FloatingActionButton(
@@ -503,3 +502,7 @@ class _OpenMapState extends State<OpenMap> {
   }
 }// _addressLocation =
       //     "${placemarks.first.country},${placemarks.first.administrativeArea},${placemarks.first.subAdministrativeArea},${placemarks.first.subLocality},${placemarks.first.street}";
+
+
+
+   

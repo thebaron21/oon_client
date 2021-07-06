@@ -5,6 +5,7 @@ import 'package:oon_client/src/view/widgets/action_bar.dart';
 import 'package:oon_client/src/view/remove/page_logo.dart';
 import 'package:oon_client/src/view_models/sender/SendTime_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:calendar_timeline/calendar_timeline.dart';
 
 class SendTime extends StatefulWidget {
   String address;
@@ -36,6 +37,18 @@ class _SendTimeState extends State<SendTime> {
     } else {
       C = screenwidth / 2.04;
     }
+
+    double screenheight = MediaQuery.of(context).size.height;
+
+    double A;
+    double B;
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      A = screenheight / 3.35;
+      B = screenheight / 16;
+    } else {
+      A = screenwidth / 3.35;
+      B = screenwidth / 16;
+    }
     return ViewModelBuilder.reactive(
       builder: (BuildContext context, SendTimeViewModel model, Widget child) {
         return Scaffold(
@@ -49,19 +62,21 @@ class _SendTimeState extends State<SendTime> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: ListView(
             children: [
               ActionBar(
                 title: 'إرسال',
                 colorPattern: model.colorPattern,
-                back: () {},
+                back: () {
+                  Navigator.of(context).pop();
+                },
                 help: () {},
               ),
               Stack(
@@ -72,7 +87,7 @@ class _SendTimeState extends State<SendTime> {
                     height: 60,
                   ),
                   Text(
-                    "5",
+                    "6",
                     style: TextStyle(
                       fontSize: 35,
                       color: model.colorPattern.primaryColor,
@@ -123,10 +138,70 @@ class _SendTimeState extends State<SendTime> {
               ),
               Image.asset(
                 'assets/images/png/Group2.png',
-                height: 200,
+                height: 180,
               ),
-              _buildTimeAndDate(context, size),
-              Row(
+              _buildCalender(),
+              SizedBox(
+                height: 30,
+              ),
+              //     _buildTimeAndDate(context, size),
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Column(
+              //           children: [
+              //             Align(
+              //               alignment: Alignment.bottomCenter,
+              //               child: Container(
+              //                 width: C,
+              //                 child: RaisedButton(
+              //                   onPressed: () {
+              //                     Navigator.of(context).pop();
+              //                   },
+              //                   child: const Text('الرجوع',
+              //                       style: TextStyle(fontSize: 20)),
+              //                   color: Color(0xFF6D6F72),
+              //                   textColor: Colors.white,
+              //                   elevation: 5,
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         Column(
+              //           children: [
+              //             Align(
+              //               alignment: Alignment.bottomCenter,
+              //               child: Container(
+              //                 width: C,
+              //                 child: RaisedButton(
+              //                   onPressed: () async {
+              //                     model.goToDetails(
+              //                         context,
+              //                         _dateSend == null
+              //                             ? DateTime.now()
+              //                             : _dateSend,
+              //                         widget.address);
+              //                   },
+              //                   child: const Text('تأكيد',
+              //                       style: TextStyle(fontSize: 20)),
+              //                   color: Color(0xFFD0DD28),
+              //                   textColor: Colors.white,
+              //                   elevation: 5,
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ],
+              //     )
+              //   ],
+              // ),
+            ],
+          ),
+          bottomNavigationBar: Container(
+              height: 50,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
@@ -134,7 +209,8 @@ class _SendTimeState extends State<SendTime> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          width: C,
+                          width: screenwidth / 2,
+                          height: B,
                           child: RaisedButton(
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -154,7 +230,8 @@ class _SendTimeState extends State<SendTime> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          width: C,
+                          width: screenwidth / 2,
+                          height: B,
                           child: RaisedButton(
                             onPressed: () async {
                               model.goToDetails(
@@ -164,7 +241,7 @@ class _SendTimeState extends State<SendTime> {
                                       : _dateSend,
                                   widget.address);
                             },
-                            child: const Text('تأكيد',
+                            child: const Text(' تأكيد العنوان',
                                 style: TextStyle(fontSize: 20)),
                             color: Color(0xFFD0DD28),
                             textColor: Colors.white,
@@ -175,25 +252,34 @@ class _SendTimeState extends State<SendTime> {
                     ],
                   ),
                 ],
-              )
-            ],
-          ),
+              )),
         );
       },
       viewModelBuilder: () => SendTimeViewModel(),
     );
   }
 
-  _buildTimeAndDate(BuildContext context, Size size) {
-    return CalendarDatePicker(
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2030),
-      initialCalendarMode: DatePickerMode.year,
-      onDateChanged: (value) {
-        setState(() => _dateSend = "${value.year}/${value.month}/${value.day}");
+  DateTime initData = DateTime(2021, 6, 22);
+  _buildCalender() {
+    return CalendarTimeline(
+      initialDate: initData,
+      firstDate: DateTime(2021, 1, 1),
+      lastDate: DateTime(2050, 1, 1),
+      onDateSelected: (value) {
+        setState(() => initData = value);
+        setState(() =>
+            _dateSend = "${initData.year}/${initData.month}/${initData.day}");
         print(_dateSend);
       },
+      showYears: true,
+      leftMargin: 80,
+      monthColor: Colors.blueGrey,
+      dayColor: Color(0xFF6D6F72),
+      activeBackgroundDayColor: Color(0xFFD0DD28),
+      activeDayColor: Colors.white,
+      dotsColor: Color(0xFFF1F2F2),
+      // selectableDayPredicate: (date) => date.day != 24,
+      // locale: 'ar',
     );
   }
 }

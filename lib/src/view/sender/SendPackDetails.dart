@@ -69,12 +69,12 @@ class _SendPackDetailsState extends State<SendPackDetails> {
               ),
             ),
             leadingWidth: 48,
-            leading: Container(
-              padding: EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                'assets/images/svg/ic_menu.svg',
-              ),
-            ),
+            // leading: Container(
+            //   padding: EdgeInsets.all(8),
+            //   child: SvgPicture.asset(
+            //     'assets/images/svg/ic_menu.svg',
+            //   ),
+            // ),
           ),
           body: ListView(
             children: [
@@ -94,7 +94,7 @@ class _SendPackDetailsState extends State<SendPackDetails> {
                     height: 60,
                   ),
                   Text(
-                    "4",
+                    "5",
                     style: TextStyle(
                       fontSize: 35,
                       color: model.colorPattern.primaryColor,
@@ -205,11 +205,10 @@ class _SendPackDetailsState extends State<SendPackDetails> {
                       ),
                     ),
                   ),
-                
                   Container(
                     alignment: Alignment.bottomRight,
                     margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
-                    child: Text('تفاصيل محتوى الشحنة'),
+                    child: Text('قيمة محتويات الشحنة'),
                   ),
                   Container(
                     width: C,
@@ -245,58 +244,56 @@ class _SendPackDetailsState extends State<SendPackDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 110, 0, 0),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: E,
-                          child: RaisedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'الرجوع',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            color: Color(0xFF6D6F72),
-                            textColor: Colors.white,
-                            elevation: 5,
-                          ),
-                        ),
-                      ),
-                    ],
+            ],
+          ),
+          bottomSheet: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                flex: 1,
+                child: RaisedButton(
+                  padding: EdgeInsets.all(6),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'الرجوع',
+                    style: TextStyle(fontSize: 20),
                   ),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: F,
-                          child: RaisedButton(
-                            onPressed: () async {
-                              model.goToTimeAndDate(context,
-                                  details: _details.text,
-                                  isBig: isBig,
-                                  price: _price.text,
-                                  address: widget.address);
-                            },
-                            child: const Text(
-                              'مواعيد إرسال الشحنة',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            color: Color(0xFFD0DD28),
-                            textColor: Colors.white,
-                            elevation: 5,
-                          ),
-                        ),
-                      ),
-                    ],
+                  color: Color(0xFF6D6F72),
+                  textColor: Colors.white,
+                  elevation: 5,
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                // ignore: deprecated_member_use
+                child: RaisedButton(
+                  padding: EdgeInsets.all(6),
+                  onPressed: () async {
+                    // ignore: unrelated_type_equality_checks
+                    if (_price.text == "" || _details.text == "") {
+                      showMessage(
+                        context,
+                        title: "تفاصيل الشحنة",
+                        content: "أكمل جميع الحقول",
+                      );
+                    } else {
+                      model.goToTimeAndDate(context,
+                          details: _details.text,
+                          isBig: isBig,
+                          price: _price.text,
+                          address: widget.address);
+                    }
+                  },
+                  child: const Text(
+                    'مواعيد إرسال الشحنة',
+                    style: TextStyle(fontSize: 20),
                   ),
-                ],
+                  color: Color(0xFFD0DD28),
+                  textColor: Colors.white,
+                  elevation: 5,
+                ),
               )
             ],
           ),
@@ -390,6 +387,34 @@ class _SendPackDetailsState extends State<SendPackDetails> {
           )
         ],
       ),
+    );
+  }
+
+  showMessage(context, {String title, String content}) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.right,
+          ),
+          content: Text(
+            content,
+            textAlign: TextAlign.right,
+          ),
+          actions: [
+            FlatButton(
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("موفق"),
+            )
+          ],
+        );
+      },
     );
   }
 }

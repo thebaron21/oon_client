@@ -47,6 +47,9 @@ class OrderService {
           return OrderState.SericveError;
           break;
       }
+    } on SocketException catch (r) {
+      print(r);
+      return OrderState.Socket;
     } catch (ex) {
       print(ex);
       return OrderState.Socket;

@@ -7,7 +7,15 @@ import 'package:oon_client/src/entities/order_entity.dart';
 import 'package:geocode/geocode.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-enum StateService { Success, Failure, NotFound, Already, Least, ErrorServer }
+enum StateService {
+  Success,
+  Failure,
+  NotFound,
+  Already,
+  Least,
+  ErrorServer,
+  FullData
+}
 
 class WebService {
   // SessionManager _sessionManager = SessionManager();
@@ -86,8 +94,13 @@ class WebService {
           print(dataValue);
           await obj.setString("token", dataValue["token"]);
           return StateService.Success;
-        } else {
-          return StateService.Failure;
+        } else if (data["status"] == "no") {
+          print("Date => ${data["data"][0]} ");
+          if (data["data"][0] == "The full name field is required.") {
+            return StateService.FullData;
+          } else {
+            return StateService.Failure;
+          }
         }
       } else if (_response.statusCode == 404) {
         return StateService.NotFound;
