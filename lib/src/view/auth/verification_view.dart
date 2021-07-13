@@ -140,6 +140,7 @@ class _VerificationViewState extends State<VerificationView> {
                                   SharedPreferences obj =
                                       await SharedPreferences.getInstance();
                                   print(obj.getString("opt"));
+                                  print("Location ${widget.address} Username : ${widget.username} Otp: ${obj.getString("opt")}");
                                   modelView.submit(
                                     context,
                                     location: widget.address,

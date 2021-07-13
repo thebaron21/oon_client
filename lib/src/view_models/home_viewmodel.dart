@@ -56,7 +56,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   _navigator(context, dynamic page) {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
     );

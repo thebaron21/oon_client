@@ -30,7 +30,7 @@ class SendLocateViewModel extends BaseViewModel {
     obj.setString("lat", locationLatLng.latitude.toString());
     obj.setString("lng", locationLatLng.longitude.toString());
     if (address == null) {
-      address = "Not Location";
+      address = "Not Located";
     }
     obj.setString("address", address);
 

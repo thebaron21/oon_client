@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oon_client/src/view/widgets/home.dart';
 import 'package:oon_client/src/view_models/signUP_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -11,6 +13,28 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   TextEditingController _phone = TextEditingController();
+  String token = null;
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  Future<void> getToken() async {
+    try {
+      SharedPreferences obj = await SharedPreferences.getInstance();
+      setState(() {
+        token = obj.getString("token");
+      });
+      if (token != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      }
+    } catch (e) {
+      print("Hello World");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
@@ -92,8 +116,21 @@ class _SignUpState extends State<SignUp> {
                                   buttonColor: Color(0XFF808285),
                                   child: RaisedButton(
                                     onPressed: () {
-                                      print(_phone.text);
-                                      model.signUp(context, _phone.text);
+                                      if( _phone.text == null || _phone.text == ""){
+                                        showMessage(context,
+                                        title:"خطأ",
+                                        content: "قم بإدخال الرقم"
+                                        );
+                                      }else if(_phone.text.length <= 9){
+                                        showMessage(context,
+                                        title:"خطأ",
+                                        content: "الرقم الذي أدخلته قصير"
+                                        );
+                                      }
+                                      else{
+                                        print(_phone.text);
+                                        model.signUp(context, _phone.text);
+                                      }
                                     },
                                     child: Text(
                                       'تسجيل',
@@ -141,6 +178,33 @@ class _SignUpState extends State<SignUp> {
           );
         },
         viewModelBuilder: () => SignUPViewModel());
+  }
+  showMessage(context, {String title, String content}) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.right,
+          ),
+          content: Text(
+            content,
+            textAlign: TextAlign.right,
+          ),
+          actions: [
+            FlatButton(
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("موفق"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   var spickit = SpinKitWave(

@@ -23,6 +23,13 @@ class _ReciveDoneState extends State<ReciveDone> {
             (BuildContext context, ReciveDoneViewModel model, Widget child) {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Home()));
+                },
+              ),
               backgroundColor: model.colorPattern.primaryColor,
               centerTitle: true,
               title: Container(
@@ -32,11 +39,6 @@ class _ReciveDoneState extends State<ReciveDone> {
                 ),
               ),
               leadingWidth: 48,
-              // leading: Container(
-              //   padding: EdgeInsets.all(8),
-              //   child: SvgPicture.asset(
-              //     'assets/images/svg/ic_menu.svg',
-              //   ),
               // ),
             ),
             body: ListView(

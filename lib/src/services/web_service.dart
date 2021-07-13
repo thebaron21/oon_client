@@ -51,7 +51,7 @@ class WebService {
           if (dataValue[0].toString() ==
               "The phone must be at least 10 characters.") {
             return StateService.Least;
-          } else if (dataValue["data"][0] ==
+          } else if (dataValue["data"] ==
               "The phone has already been taken.") {
             return StateService.Already;
           }
@@ -71,7 +71,7 @@ class WebService {
       {String location, String fullName, String opt}) async {
     SharedPreferences obj = await SharedPreferences.getInstance();
     String phone = obj.getString("phone");
-    print("Phone : $phone");
+    print("Phone : $phone, OTP : $opt , FullName : $fullName , Location $location");
     http.Response _response;
     try {
       _response = await http.post(
@@ -108,7 +108,6 @@ class WebService {
         return StateService.ErrorServer;
       }
     } catch (e) {
-      print("StatusCode : ${_response.statusCode}");
       print(e.toString());
       return StateService.Failure;
     }

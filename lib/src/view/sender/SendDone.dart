@@ -31,6 +31,13 @@ class _SendDoneState extends State<SendDone> {
             (BuildContext context, ReciveDoneViewModel model, Widget child) {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => Home()));
+                },
+              ),
               backgroundColor: model.colorPattern.primaryColor,
               centerTitle: true,
               title: Container(

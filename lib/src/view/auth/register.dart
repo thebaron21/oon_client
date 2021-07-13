@@ -3,13 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:oon_client/src/view/widgets/home.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'verification_view.dart';
 
 class RegisterPage extends StatefulWidget {
   String location;
-  RegisterPage({this.location});
+  String fullname;
+  RegisterPage({this.location, this.fullname});
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -22,11 +24,31 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _addressLocation = TextEditingController();
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   String apiKey = 'AIzaSyD9ckDkX8LPJezARCxA1k9wuigJ_VaLLMY';
+  String token = null;
   @override
   void initState() {
     super.initState();
     if (widget.location != null) {
       _addressLocation.text = widget.location;
+    }
+    if (widget.fullname != null) {
+      _username.text = widget.fullname;
+    }
+    getToken();
+  }
+
+  Future<void> getToken() async {
+    try {
+      SharedPreferences obj = await SharedPreferences.getInstance();
+      setState(() {
+        token = obj.getString("token");
+      });
+      if (token != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      }
+    } catch (e) {
+      print("Hello World");
     }
   }
 
@@ -283,39 +305,48 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                print("Click Open Maps");
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OpenMap(),
-                                  ),
-                                );
+                                if (_username.text != null ||
+                                    _username.text != "") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OpenMap(
+                                        fullname: _username.text,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OpenMap(),
+                                    ),
+                                  );
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  
-                                      Row(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                width: 10,
-                                                color: Color(0XFFD0DD28),
-                                                height: 40,
-                                              )
-                                            ],
-                                          ),
-                                          Stack(
-                                    alignment: Alignment.center,
+                                  Row(
                                     children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            width: 10,
+                                            color: Color(0XFFD0DD28),
+                                            height: 40,
+                                          )
+                                        ],
+                                      ),
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
                                           Image.asset(
                                             'assets/images/png/TF.png',
                                             color: Color(0XFF808285),
                                             height: 40,
-                                            
                                           ),
                                           Center(
                                             child: Icon(
@@ -346,6 +377,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     buttonColor: Color(0XFF808285),
                     child: RaisedButton(
                       onPressed: () {
+                        if(_username.text == null || _address.text == null){
+
+                        }
                         openCodePage(
                           username: _username.text,
                           address: widget.location != null
@@ -411,11 +445,42 @@ class _RegisterPageState extends State<RegisterPage> {
       content: Text("$message"),
     ));
   }
+
+  showMessage2(context, {String title, String content}) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.right,
+          ),
+          content: Text(
+            content,
+            textAlign: TextAlign.right,
+          ),
+          actions: [
+            FlatButton(
+              color: Color(0xFFD0DD28),
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("موفق"),
+            )
+          ],
+        );
+      },
+    );
+  }
 }
 
 class OpenMap extends StatefulWidget {
+  final String fullname;
   static CameraPosition _cameraPosition =
       CameraPosition(target: LatLng(12.0055, -12.32389), zoom: 18.009);
+
+  const OpenMap({Key key, this.fullname}) : super(key: key);
 
   @override
   _OpenMapState createState() => _OpenMapState();
@@ -431,7 +496,11 @@ class _OpenMapState extends State<OpenMap> {
   @override
   void initState() {
     super.initState();
-    // _location = Location();
+  }
+  @override
+  dispose(){
+    super.dispose();
+    
   }
 
   @override
@@ -495,14 +564,10 @@ class _OpenMapState extends State<OpenMap> {
         builder: (BuildContext context) {
           return RegisterPage(
             location: location,
+            fullname:widget.fullname
           );
         },
       ),
     );
   }
-}// _addressLocation =
-      //     "${placemarks.first.country},${placemarks.first.administrativeArea},${placemarks.first.subAdministrativeArea},${placemarks.first.subLocality},${placemarks.first.street}";
-
-
-
-   
+}

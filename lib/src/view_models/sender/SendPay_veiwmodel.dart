@@ -100,8 +100,8 @@ class SendPayViewModel extends BaseViewModel {
     ));
   }
 
-  _navigator(context, dynamic page) =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+  _navigator(context, dynamic page) => Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => page));
 }
 
 enum OrderStatus3 { Completed, Inprogress }

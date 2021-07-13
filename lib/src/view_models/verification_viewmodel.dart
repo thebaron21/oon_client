@@ -14,12 +14,13 @@ class VerificationViewModel extends BaseViewModel {
     _isLoading = true;
     notifyListeners();
     String loc;
-    if (location.length > 30) loc = location.substring(0, 30);
+    print("Location : $location");
+    if (location.length > 30) location = location.substring(0, 30);
     notifyListeners();
     print(loc);
 
     var res = await _webService.optVerify(
-      location: loc,
+      location: location,
       fullName: username,
       opt: opt,
     );
